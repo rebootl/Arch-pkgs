@@ -1,0 +1,11 @@
+--- config.def.h.old	2014-02-23 16:59:05.233280130 +0100
++++ config.def.h	2014-02-23 17:10:28.345049818 +0100
+@@ -1,5 +1,5 @@
+ /* See LICENSE file for copyright and license details. */
+ 
+-static char *const rcinitcmd[] = { "/bin/rc.init", NULL };
+-static char *const rcrebootcmd[] = { "/bin/rc.shutdown", "reboot", NULL };
+-static char *const rcpoweroffcmd[] = { "/bin/rc.shutdown", "poweroff", NULL };
++static char *const rcinitcmd[] = { "/usr/bin/sminirc", "init", NULL };
++static char *const rcrebootcmd[] = { "/usr/bin/sminirc", "reboot", NULL };
++static char *const rcpoweroffcmd[] = { "/usr/bin/sminirc", "poweroff", NULL };

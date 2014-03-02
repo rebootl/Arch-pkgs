@@ -1,0 +1,31 @@
+# Maintainer: Cem Aydin (rebootl) <cem.aydin gmx.ch>
+# Contributor: Sam Stuewe <halosghost at archlinux dot info>
+_gitname=minirc
+pkgname="${_gitname}-sinit-git"
+pkgver=115.0273130
+pkgrel=1
+pkgdesc="A fork of minirc to work w/ sinit"
+arch=('any')
+url="https://github.com/rebootl/minirc/tree/adapted-sinit"
+license=('GPLv2')
+conflicts=('')
+depends=('busybox' 'sinit-minirc-git')
+optdepends=('systemd: udev support')
+makedepends=('git')
+source=("${_gitname}::git://github.com/rebootl/${_gitname}.git#branch=adapted-sinit")
+sha256sums=('SKIP')
+backup=('etc/minirc.conf')
+
+pkgver() {
+  cd "${_gitname}"
+  echo "$(git rev-list --count HEAD).$(git describe --always )"
+}
+
+package() {
+  cd "${_gitname}"
+
+  # Execute Install Script
+  ROOT="${pkgdir}" ./setup.sh --force
+}
+
+# vim:set ts=2 sw=2 et:

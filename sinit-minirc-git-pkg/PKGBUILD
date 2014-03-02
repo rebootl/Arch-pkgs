@@ -1,0 +1,38 @@
+# Maintainer: Cem Aydin (rebootl) <cem.aydin gmx.ch>
+_gitname=sinit
+pkgname=${_gitname}-minirc-git
+pkgver=0.7.r2.ga7b6c6f
+pkgrel=1
+pkgdesc="sinit - suckless init (patched for a custom minirc)"
+arch=('i686' 'x86_64')
+url="http://git.2f30.org/sinit/"
+license=('MIT')
+depends=('')
+makedepends=('git')
+conflicts=('sinit-git')
+provides=('sinit')
+source=('git://git.2f30.org/sinit'
+  'call-minirc-sinit.patch')
+md5sums=('SKIP'
+  '4e4dc3003781b47df2008d2461f2692d')
+
+pkgver() {
+  cd "${_gitname}"
+  # Using most recent unannotated tag, removing prefix v
+  git describe --long --tags | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${_gitname}"
+  patch -uN config.def.h ../call-minirc-sinit.patch || return 1
+}
+
+build() {
+  cd "${_gitname}"
+  make
+}
+
+package() {
+  cd "${_gitname}"
+  make PREFIX=/usr DESTDIR="${pkgdir}" install
+}
