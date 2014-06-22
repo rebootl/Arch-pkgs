@@ -1,0 +1,38 @@
+# Maintainer: Cem Aydin (rebootl) <cem.aydin gmx.ch>
+_gitname=sinit
+pkgname=${_gitname}-stage-git
+pkgver=0.9.r5.g3b0c28b
+pkgrel=1
+pkgdesc="sinit - suckless init (patched for stage init)"
+arch=('i686' 'x86_64')
+url="http://git.2f30.org/sinit/"
+license=('MIT')
+depends=('')
+makedepends=('git')
+conflicts=('sinit-git' 'sinit-minirc-git')
+provides=('sinit')
+source=('git://git.2f30.org/sinit'
+  'call-stage-sinit.patch')
+md5sums=('SKIP'
+  '4393e8287079f49731af13a2dd81a5f8')
+
+pkgver() {
+  cd "${_gitname}"
+  # Using most recent unannotated tag, removing prefix v
+  git describe --long --tags | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${_gitname}"
+  patch -uN config.def.h ../call-stage-sinit.patch || return 1
+}
+
+build() {
+  cd "${_gitname}"
+  make
+}
+
+package() {
+  cd "${_gitname}"
+  make PREFIX=/usr DESTDIR="${pkgdir}" install
+}
