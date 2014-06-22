@@ -1,7 +1,7 @@
 # Maintainer: Cem Aydin (rebootl) <cem.aydin gmx.ch>
 _gitname=sinit
 pkgname=${_gitname}-minirc-git
-pkgver=0.7.r2.ga7b6c6f
+pkgver=0.8.r2.g7a2bb2c
 pkgrel=1
 pkgdesc="sinit - suckless init (patched for a custom minirc)"
 arch=('i686' 'x86_64')

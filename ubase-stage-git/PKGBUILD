@@ -1,0 +1,41 @@
+# Maintainer: Cem Aydin (rebootl) <cem.aydin@gmx.ch>
+# Contributor: Jens Staal <staal1978@gmail.com>
+
+_gitname=ubase
+pkgname=${_gitname}-stage-git
+pkgver=r416.6b83c2c
+pkgrel=1
+pkgdesc="ubase - suckless linux base utils (installed to /usr/bin/ubase)"
+arch=('i686' 'x86_64')
+license=('MIT')
+url="http://git.suckless.org/ubase/"
+depends=('')
+makedepends=('git')
+source=('git://git.suckless.org/ubase')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${_gitname}"
+
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/${_gitname}"
+
+    # remove the /bin from Makefile
+    sed -i 's/\/bin//g' Makefile
+
+	#temporary hacks
+	#sed -i 's|MAN = $(SRC:.c=.1)|MAN = chvt.1 |g' Makefile
+}
+
+build() {
+	cd "$srcdir/${_gitname}"
+	make
+}
+
+package() {
+	cd "$srcdir/${_gitname}"
+  	make PREFIX=/usr/bin/ubase DESTDIR="${pkgdir}" MANPREFIX=/usr/share/ubase install 
+}
